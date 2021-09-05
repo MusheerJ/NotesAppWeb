@@ -1,0 +1,73 @@
+<div class="container my-3">
+    <h2>Welcome to My Notes Apps</h2>
+
+    <div class="errorMsg" id="errorMsg">
+
+    </div>
+
+    <form class="my-4" id="addNoteForm" action="/" method="POST">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group">
+                    <h5 class="card-title">Add title</h5>
+                    <input type="text" name="note_title" class="form-control" id="addTitle" aria-describedby="emailHelp"
+                        placeholder="Enter a title for your note" />
+                </div>
+
+                <h5 class="card-title my-2">Add a note</h5>
+                <div class="mb-3">
+                    <textarea class="form-control" name="note_description" id="addTxt" rows="3"
+                        placeholder="Start writing your note"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" id="addBtn">Add note</button>
+            </div>
+        </div>
+    </form>
+
+
+    <h3 class="my-1">Your Notes</h3>
+    <hr />
+
+    <div id="notes" class="row container-fluid">
+        {{#each notes}}
+        <div class="noteCard my-2 mx-2 card" style="width: 18rem">
+            <div class="card-body">
+                <h5 class="card-title">{{this.note_title}}</h5>
+                <p class="card-text">{{this.note_description}}</p>
+                <a href="/delete/{{this.note_no}}" type="button" class="btn btn-primary">
+                    Delete</a>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
+
+<script>
+    let status = 'warning';
+    let startHtml = `<div class="alert alert-${status} alert-dismissible fade show" role="alert">`;
+    let endHtml = `<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>`;
+    let errorMsg = document.getElementById('errorMsg');
+    let noteForm = document.getElementById('addNoteForm');
+    let addBtn = document.getElementById('addBtn');
+
+    addBtn.addEventListener("click", submitNote);
+
+    function submitNote() {
+        if (document.getElementById('addTitle').value == "") {
+            errorMsg.innerHTML = `${startHtml} Title cant be empty ${endHtml}`;
+            noteForm.setAttribute('method', 'dialog');
+            return;
+        }
+        if (document.getElementById('addTxt').value == "") {
+            errorMsg.innerHTML = `${startHtml} Content cant be empty ${endHtml}`;
+            noteForm.setAttribute('method', 'dialog');
+            return;
+        }
+        noteForm.setAttribute('method', 'post');
+    }
+
+
+
+
+</script>
